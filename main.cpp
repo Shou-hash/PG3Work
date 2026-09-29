@@ -1,28 +1,51 @@
-#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <windows.h> // Sleep() を使用するために必要
 
-using namespace std;
+// 判定関数 ShowResult()
+void ShowResult(int roll, int userGuess) {
+    printf("出目は %d でした。\n", roll);
 
-// 関数テンプレートによる Min 関数の定義
-template <typename Type>
-Type Min(Type a, Type b) {
-    return (a < b) ? a : b;
+    // 奇数なら roll % 2 == 1、偶数なら roll % 2 == 0
+    int result = roll % 2;
+
+    if (result == userGuess) {
+        printf("正解\n");
+    }
+    else {
+        printf("不正解\n");
+    }
 }
 
-int main() {
-    // int型の3対目（ペア1）
-    int i1 = 15;
-    int i2 = 8;
-    cout << "int型の最小値: " << Min<int>(i1, i2) << endl;
+// 遅延実行関数 DelayReveal()
+void DelayReveal(void (*fn)(int, int), unsigned int delayMs, int roll, int userGuess) {
+    printf("結果を判定中...\n");
 
-    // float型の3対目（ペア2）
-    float f1 = 3.14f;
-    float f2 = 1.59f;
-    cout << "float型の最小値: " << Min<float>(f1, f2) << endl;
+    // 指定ミリ秒待機
+    Sleep(delayMs);
 
-    // double型の3対目（ペア3）
-    double d1 = 9.81;
-    double d2 = 12.34;
-    cout << "double型の最小値: " << Min<double>(d1, d2) << endl;
+    // コールバック関数の呼び出し
+    fn(roll, userGuess);
+}
+
+int main(void) {
+    // コンソールの文字化け防止（UTF-8指定）
+    SetConsoleOutputCP(65001);
+
+    // シード初期化
+    srand((unsigned int)time(NULL));
+
+    // ユーザー入力
+    int userGuess = 0;
+    printf("予想を入力してください（半(奇数) = 1 / 丁(偶数) = 0）: ");
+    scanf_s("%d", &userGuess);
+
+    // 1〜6の乱数を生成
+    int roll = (rand() % 6) + 1;
+
+    // DelayRevealの呼び出し（3秒待機後に ShowResult を実行）
+    DelayReveal(ShowResult, 3000, roll, userGuess);
 
     return 0;
 }
