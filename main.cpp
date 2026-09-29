@@ -1,25 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <windows.h> // Sleep() を使用するために必要
+#include <windows.h>
+#include <functional> // std::function を使用するために必要
 
-// 判定関数 ShowResult()
-void ShowResult(int roll, int userGuess) {
-    printf("出目は %d でした。\n", roll);
-
-    // 奇数なら roll % 2 == 1、偶数なら roll % 2 == 0
-    int result = roll % 2;
-
-    if (result == userGuess) {
-        printf("正解\n");
-    }
-    else {
-        printf("不正解\n");
-    }
-}
-
-// 遅延実行関数 DelayReveal()
-void DelayReveal(void (*fn)(int, int), unsigned int delayMs, int roll, int userGuess) {
+// DelayReveal 関数：関数ポインタから std::function に変更
+void DelayReveal(std::function<void(int, int)> fn, unsigned int delayMs, int roll, int userGuess) {
     printf("結果を判定中...\n");
 
     // 指定ミリ秒待機
@@ -44,7 +30,21 @@ int main(void) {
     // 1〜6の乱数を生成
     int roll = (rand() % 6) + 1;
 
-    // DelayRevealの呼び出し（3秒待機後に ShowResult を実行）
+    // 【書き換えポイント】
+    // std::function 変数に判定処理のラムダ式を代入[cite: 47, 50]
+    std::function<void(int, int)> ShowResult = [](int roll, int userGuess) {
+        printf("出目は %d でした。\n", roll);
+
+        int result = roll % 2;
+        if (result == userGuess) {
+            printf("正解\n");
+        }
+        else {
+            printf("不正解\n");
+        }
+        };
+
+    // DelayReveal の呼び出し
     DelayReveal(ShowResult, 3000, roll, userGuess);
 
     return 0;
