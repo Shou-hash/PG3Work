@@ -1,42 +1,28 @@
 #include <iostream>
-#include <vector>
-#include <string>
-#include <algorithm>
 
 using namespace std;
 
+// 関数テンプレートによる Min 関数の定義
+template <typename Type>
+Type Min(Type a, Type b) {
+    return (a < b) ? a : b;
+}
+
 int main() {
-    // コンソールの文字化け対策
-    system("chcp 65001 > nul");
+    // int型の3対目（ペア1）
+    int i1 = 15;
+    int i2 = 8;
+    cout << "int型の最小値: " << Min<int>(i1, i2) << endl;
 
-    // 1. vector<string> で学籍番号（メールアドレス）の配列を宣言
-    vector<string> student_emails = {
-        "k024g1017@g.neec.ac.jp", "k024g0033@g.neec.ac.jp", "k024g0057@g.neec.ac.jp",
-        "k024g0020@g.neec.ac.jp", "k024g0109@g.neec.ac.jp", "k024g1031@g.neec.ac.jp",
-        "k024g0004@g.neec.ac.jp", "k024g0027@g.neec.ac.jp", "k024g0058@g.neec.ac.jp",
-        "k022g0113@g.neec.ac.jp", "k024g0007@g.neec.ac.jp", "k024g0083@g.neec.ac.jp",
-        "k024g0110@g.neec.ac.jp", "k024g0066@g.neec.ac.jp", "k023g0029@g.neec.ac.jp",
-        "k024g1030@g.neec.ac.jp", "k024g0106@g.neec.ac.jp", "k024g0089@g.neec.ac.jp",
-        "k024g0101@g.neec.ac.jp", "k024g0035@g.neec.ac.jp", "k024g1025@g.neec.ac.jp",
-        "k024g0059@g.neec.ac.jp", "k024g0006@g.neec.ac.jp", "k023g0122@g.neec.ac.jp",
-        "k024g0028@g.neec.ac.jp", "k024g1024@g.neec.ac.jp", "k024g0108@g.neec.ac.jp",
-        "k024g0061@g.neec.ac.jp", "k024g0104@g.neec.ac.jp", "k024g0038@g.neec.ac.jp",
-        "k024g0032@g.neec.ac.jp", "k024g0026@g.neec.ac.jp", "k024g0001@g.neec.ac.jp",
-        "k024g0009@g.neec.ac.jp", "k024g0112@g.neec.ac.jp", "k024g0011@g.neec.ac.jp",
-        "k024g0085@g.neec.ac.jp", "k024g0111@g.neec.ac.jp", "k024g0045@g.neec.ac.jp",
-        "k024g0103@g.neec.ac.jp", "k024g1002@g.neec.ac.jp", "k024g0078@g.neec.ac.jp",
-        "k024g0044@g.neec.ac.jp", "k024g0008@g.neec.ac.jp", "k024g0075@g.neec.ac.jp",
-        "k024g0091@g.neec.ac.jp", "k024g0064@g.neec.ac.jp", "k024g0051@g.neec.ac.jp",
-        "k024g0093@g.neec.ac.jp", "k024g0024@g.neec.ac.jp"
-    };
+    // float型の3対目（ペア2）
+    float f1 = 3.14f;
+    float f2 = 1.59f;
+    cout << "float型の最小値: " << Min<float>(f1, f2) << endl;
 
-    // 2. STLアルゴリズムの sort 関数を用いて学籍番号順（昇順）にソート
-    sort(student_emails.begin(), student_emails.end());
-
-    // 3. ソート後の状態のみを出力（ソート前の表示処理は行わない）
-    for (const auto& email : student_emails) {
-        cout << email << endl;
-    }
+    // double型の3対目（ペア3）
+    double d1 = 9.81;
+    double d2 = 12.34;
+    cout << "double型の最小値: " << Min<double>(d1, d2) << endl;
 
     return 0;
 }
