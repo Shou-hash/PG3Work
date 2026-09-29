@@ -1,58 +1,42 @@
-#include <stdio.h>
-#include <string.h>
-#include <list>
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
 
 using namespace std;
 
-// 駅一覧を表示する関数
-void printStations(const list<const char*>& stations, int year) {
-    printf("=== Yamanote Line Stations (%d) ===\n", year);
-    for (auto itr = stations.begin(); itr != stations.end(); ++itr) {
-        printf("%s\n", *itr);
-    }
-    printf("\n");
-}
-
 int main() {
-    // コンソールの文字化け対策（日本語表示用）
+    // コンソールの文字化け対策
     system("chcp 65001 > nul");
 
-    // 1970年時点の山手線の駅一覧
-    list<const char*> yamanote = {
-        "Tokyo", "Kanda", "Akihabara", "Okachimachi", "Ueno",
-        "Uguisudani", "Nippori", "Tabata", "Komagome", "Sugamo",
-        "Otsuka", "Ikebukuro", "Mejiro", "Takadanobaba", "Shinjuku",
-        "Yoyogi", "Harajuku", "Shibuya", "Ebisu", "Meguro",
-        "Gotanda", "Osaki", "Shinagawa", "Tamachi", "Hamamatsucho",
-        "Shimbashi", "Yurakucho"
+    // 1. vector<string> で学籍番号（メールアドレス）の配列を宣言
+    vector<string> student_emails = {
+        "k024g1017@g.neec.ac.jp", "k024g0033@g.neec.ac.jp", "k024g0057@g.neec.ac.jp",
+        "k024g0020@g.neec.ac.jp", "k024g0109@g.neec.ac.jp", "k024g1031@g.neec.ac.jp",
+        "k024g0004@g.neec.ac.jp", "k024g0027@g.neec.ac.jp", "k024g0058@g.neec.ac.jp",
+        "k022g0113@g.neec.ac.jp", "k024g0007@g.neec.ac.jp", "k024g0083@g.neec.ac.jp",
+        "k024g0110@g.neec.ac.jp", "k024g0066@g.neec.ac.jp", "k023g0029@g.neec.ac.jp",
+        "k024g1030@g.neec.ac.jp", "k024g0106@g.neec.ac.jp", "k024g0089@g.neec.ac.jp",
+        "k024g0101@g.neec.ac.jp", "k024g0035@g.neec.ac.jp", "k024g1025@g.neec.ac.jp",
+        "k024g0059@g.neec.ac.jp", "k024g0006@g.neec.ac.jp", "k023g0122@g.neec.ac.jp",
+        "k024g0028@g.neec.ac.jp", "k024g1024@g.neec.ac.jp", "k024g0108@g.neec.ac.jp",
+        "k024g0061@g.neec.ac.jp", "k024g0104@g.neec.ac.jp", "k024g0038@g.neec.ac.jp",
+        "k024g0032@g.neec.ac.jp", "k024g0026@g.neec.ac.jp", "k024g0001@g.neec.ac.jp",
+        "k024g0009@g.neec.ac.jp", "k024g0112@g.neec.ac.jp", "k024g0011@g.neec.ac.jp",
+        "k024g0085@g.neec.ac.jp", "k024g0111@g.neec.ac.jp", "k024g0045@g.neec.ac.jp",
+        "k024g0103@g.neec.ac.jp", "k024g1002@g.neec.ac.jp", "k024g0078@g.neec.ac.jp",
+        "k024g0044@g.neec.ac.jp", "k024g0008@g.neec.ac.jp", "k024g0075@g.neec.ac.jp",
+        "k024g0091@g.neec.ac.jp", "k024g0064@g.neec.ac.jp", "k024g0051@g.neec.ac.jp",
+        "k024g0093@g.neec.ac.jp", "k024g0024@g.neec.ac.jp"
     };
 
-    // 1970年の駅一覧を表示
-    printStations(yamanote, 1970);
+    // 2. STLアルゴリズムの sort 関数を用いて学籍番号順（昇順）にソート
+    sort(student_emails.begin(), student_emails.end());
 
-    // 2. 西日暮里駅 (1971年開業) を適切な位置に挿入
-    //（Nippori と Tabata の間 → Tabata の直前に挿入）
-    for (auto itr = yamanote.begin(); itr != yamanote.end(); ++itr) {
-        if (strcmp(*itr, "Tabata") == 0) {
-            yamanote.insert(itr, "Nishi-Nippori");
-            break;
-        }
+    // 3. ソート後の状態のみを出力（ソート前の表示処理は行わない）
+    for (const auto& email : student_emails) {
+        cout << email << endl;
     }
-
-    // 2019年の駅一覧を表示
-    printStations(yamanote, 2019);
-
-    // 3. 高輪ゲートウェイ駅 (2020年開業) を適切な位置に挿入
-    //（Shinagawa と Tamachi の間 → Tamachi の直前に挿入）
-    for (auto itr = yamanote.begin(); itr != yamanote.end(); ++itr) {
-        if (strcmp(*itr, "Tamachi") == 0) {
-            yamanote.insert(itr, "Takanawa Gateway");
-            break;
-        }
-    }
-
-    // 2022年の駅一覧を表示
-    printStations(yamanote, 2022);
 
     return 0;
 }
